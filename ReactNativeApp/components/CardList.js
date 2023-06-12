@@ -2,6 +2,20 @@ import { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, FlatList, StyleSheet, Image, Text } from 'react-native';
 
+const cardData = () => {
+    return fetch('http://localhost:8082/api/flowers')
+      .then(response => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          data: responseJson
+        })
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
 const DATA = [
     {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -27,7 +41,7 @@ export class CardList extends Component {
     render() {
         return (
             <View>
-                <FlatList data={DATA} renderItem={({ item }) => <Card title={item.title} image={item.image} description={item.description} />} keyExtractor={item => item.id} />
+                <FlatList data={cardData} renderItem={({ item }) => <Card title={item.Name} image={item.ImagePath} description={item.Description} />} keyExtractor={item => item.Name} />
             </View>
         );
     }
